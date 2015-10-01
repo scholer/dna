@@ -37,26 +37,30 @@ email: fdannenberg/live/nl
 
 
 
-	*** INSTALLATION ***
+##	*** INSTALLATION ***
 
 Unzip the folder. The software depends on the following libraries that you should install. Dir lib/ should contain
 
+```
 commons-math3-3.0.jar or equivalent	http://commons.apache.org/
 jgrapht-jdk1.6.jar or equivalent	http://jgrapht.org/ do not confuse with jgraph
 junit-4.12.jar or equivalent		http://junit.org/ purely optional
+```
 
 In addition, the plotting scripts require R to run. http://www.r-project.org/
 
 
 
-	*** COMPILE ***
+##	*** COMPILE ***
 
+```
 javac  -cp lib/jgrapht-jdk1.6.jar:lib/commons-math3-3.0.jar src/folding/*.java src/writers/*.java src/plotting/*.java -d bin; 
+```
 
 
+##	*** SETTINGS ***
 
-	*** SETTINGS ***
-
+```
 THREADS=8 PATHS=20 RATE=0.4; DESIGN0="design23eAll"  DESIGN1="design23eAllEnergy" DESIGN2="methodsPaperAllPlots" DESIGN3="methodsPaperNoCooperativity";
 
 THREADS 	# number of simulation threads
@@ -67,15 +71,18 @@ DESIGN0="design23eAll"			# runs 5 different designs
 DESIGN1="design23eAllEnergy" 		# runs same designs with sequence-specific domain stability
 DESIGN2="methodsPaperAllPlots"  	# methods paper plots and data
 DESIGN3="methodsPaperNoCooperativity" 	# special SI table in the methods paper
+```
 
 
+##	*** RUN ***
 
-	*** RUN ***
-
+```
 java -cp bin:lib/jgrapht-jdk1.6.jar:lib/commons-math3-3.0.jar -Xmx4000m folding.Control $DESIGN0 "distance" $THREADS $PATHS $RATE;
+```
 
 Correct calls will output to the commandline something similar to the below, at which point the simulation starts to run. After the run, output is placed in the /output/ dir.
 
+```
 design23eAll
 distance
 8
@@ -88,12 +95,12 @@ Prefactor is 6.69546718045E-19
 numOfSteps is 3900
 Number of legal states is 74
  neighbourCorrectionDH - neighbourCorrectionDS -0.0 - -0.0
+```
 
 
+##	*** PRE-GENERATED RESULTS ***
 
-	*** PRE-GENERATED RESULTS ***
-
-output-pregenerated/overview.txt contains a summary of output for the experiments described in [1]. 
+```output-pregenerated/overview.txt``` contains a summary of output for the experiments described in [1]. 
 
 
 
