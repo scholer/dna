@@ -12,10 +12,11 @@ package folding;
 
 public class LegalType
 {
+	// Named legal types; used for naming data file directories, so should be valid filesystem characters
 	public static final String all = "all";
-	public static final String fiveZero = "5:0";
-	public static final String fourOne = "4:1";
-	public static final String threeTwo = "3:2";
+	public static final String fiveZero = "5-0";
+	public static final String fourOne = "4-1";
+	public static final String threeTwo = "3-2";
 	public static final String MCType = "MC";
 	public static final String noType = "N.T.";
 

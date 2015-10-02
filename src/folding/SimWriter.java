@@ -20,6 +20,7 @@ public class SimWriter
 	JsonParser jsonParser;
 	ListWriter wList;
 	boolean toggle;
+	boolean isClosed;
 
 	public SimWriter(Design design2, int id2)
 	{
@@ -34,6 +35,7 @@ public class SimWriter
 		count = 0;
 
 		toggle = false;
+		isClosed = false;
 	}
 
 	public void write(State state, double temp)
@@ -52,7 +54,16 @@ public class SimWriter
 
 	public void finalize()
 	{
-		wList.writeToFile("\n ]", 0);
+		// System.out.println("SimWriter: finalize() called...");
+		// There is a potential problem where finalize could be called multiple times,
+		// first in simulator.run() and then during deconstruction.
+		// I've added a check to make sure we only add the closing bracket once.
+		if (!isClosed) {
+			// System.out.println("SimWriter: finalize() - writing closing bracket to file...");
+			wList.writeToFile("\n ]", 0);
+			isClosed = true;
+		}
+		//System.out.println("SimWriter: finalize() done");
 	}
 
 }

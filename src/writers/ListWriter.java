@@ -76,7 +76,12 @@ public class ListWriter
 
 	public void writeToFile(String output)
 	{
-		this.writeToFile(output, 0);
+		try {
+			this.writeToFile(output, 0);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("ListWriter ("+exportFilePath+"): Unable to get default (0) file writer."+
+				"Something may have gone wrong during setup/initialisation of this writer.");
+		}
 	}
 
 	public void writeToFile(String output, int n)
@@ -89,6 +94,7 @@ public class ListWriter
 			writer.flush();
 		} catch (IOException e) {
 			System.out.println("Something went wrong in writeToFile. Could not write: " + output);
+			e.printStackTrace();
 		}
 	}
 

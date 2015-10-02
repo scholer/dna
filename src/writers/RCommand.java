@@ -73,6 +73,8 @@ public class RCommand
 
 	public static void execute(String command)
 	{
+		// This is called in external runtime, so not sure we would detect
+		// it if anything goes wrong...
 		CommandlineCaller.call(command);
 	}
 

@@ -11,6 +11,10 @@
 package folding;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 import writers.RCommand;
 import writers.Result;
 import writers.ResultWriter;
@@ -23,6 +27,7 @@ public class Control
 	private String pad;
 	private Design design;
 	private Result result;
+	private String runStartDateTimeStr;
 	private String outDir;
 	private ResultWriter writer;
 
@@ -34,6 +39,7 @@ public class Control
 		numOfThreads = Integer.parseInt(args[2]);
 		numOfPaths = Integer.parseInt(args[3]);
 		rate = Double.parseDouble(args[4]);
+		runStartDateTimeStr = new SimpleDateFormat("YYYYMMDD-HHmm").format(new Date());
 
 		this.detectCustomScriptAndGo();
 	}
@@ -232,6 +238,7 @@ public class Control
 
 	private void go()
 	{
+		System.out.println("\nStarting new simulation and data plotting for design " + designString + " with model " + model + "...");
 		this.initialisePath();
 		this.initialiseDesign();
 		this.initialiseResult();
@@ -239,22 +246,26 @@ public class Control
 		this.writeResults();
 		this.createGraphs();
 		this.openGraphs();
+		System.out.println("Run (simulation and data plotting) complete!\n");
 	}
 
 	private void initialisePath()
 	{
-		pad = Util.workDirectory() + "/output/";
+		Path padPath = Paths.get(Util.workDirectory(), "output", runStartDateTimeStr);
+		pad = padPath.toString();
 
 		if (designString.contains("jon")) {
 			pad = pad + "jon/";
 		}
 
-		System.out.println(pad);
+		System.out.println("Output base directory: " + pad);
 	}
 
 	public void initialiseDesign()
 	{
-		outDir = pad + designString + "-" + (numOfThreads * numOfPaths) + "-" + model + "-" + rate + "CpMin";
+		String designDir = designString + "-" + (numOfThreads * numOfPaths) + "-" + model + "-" + rate + "CpMin";
+		outDir = Paths.get(pad, designDir).toString();
+		System.out.println("Output directory for this design/simulation:\n" + outDir);
 		design = new Design(designString, rate, outDir, numOfThreads * numOfPaths, model, hiddenSettings);
 	}
 
@@ -308,7 +319,17 @@ public class Control
 
 	private void openGraphs()
 	{
-		String command = "gnome-open  " + outDir + "/";
+		String command;
+		String osname = System.getProperty("os.name").toLowerCase();
+		if (osname.startsWith("windows")) {
+			command = "explorer " + outDir;
+		} else if (osname.contains("mac")) {
+			command = "open " + outDir + "/";
+		}
+		else {
+			command = "gnome-open  " + outDir + "/";
+		}
+		System.out.println("Opening output directory using command: " + command);
 		writers.CommandlineCaller.call(command);
 	}
 

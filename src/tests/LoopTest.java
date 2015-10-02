@@ -32,6 +32,7 @@ public class LoopTest
 		Loop newLoop = new Loop(design);
 		loop.split(27, 29, newLoop);
 		assertEquals("test3", loop.toString(), new Loop(new int[][] { { 0, 27 }, { 29, design.scaffoldLength } }).toString());
+                System.out.println("LoopTest done!");
 	}
 
 }

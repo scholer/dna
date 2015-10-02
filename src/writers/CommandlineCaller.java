@@ -17,11 +17,13 @@ public class CommandlineCaller
 	public static void call(String command)
 	{
 		try {
-			System.out.println(command);
+			System.out.println("Executing command:" + command);
 			Runtime.getRuntime().exec(command).waitFor();
 		} catch (IOException e) {
+			System.out.println(" - Error executing command:" + command);
 			e.printStackTrace();
 		} catch (InterruptedException e) {
+			System.out.println(" - Interrupted while executing command:" + command);
 			e.printStackTrace();
 		}
 

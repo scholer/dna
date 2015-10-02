@@ -190,6 +190,11 @@ public class Simulator implements Runnable
 	public void run()
 	{
 		this.doSimulation();
+		// Is this a good way to to it? simWriter.finalize() is also called when it is destroyed,
+		// so calling it here as well can call it twice.
+		// But for the *last* run, it appears simWriter.finalize() is NOT run, so we have to call it here
+		// I've added a check in simWriter to ensure that calling finalize() will only write
+		// a single closing bracket. That resolves the issue.
 		simWriter.finalize();
 	}
 
