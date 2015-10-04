@@ -245,8 +245,9 @@ public class Control
 		this.runEngine();
 		this.writeResults();
 		this.createGraphs();
-		this.openGraphs();
-		System.out.println("Run (simulation and data plotting) complete!\n");
+		
+		System.out.println("Result dir: " + outDir);
+		
 	}
 
 	private void initialisePath()
@@ -317,21 +318,7 @@ public class Control
 		RCommand.execute(command);
 	}
 
-	private void openGraphs()
-	{
-		String command;
-		String osname = System.getProperty("os.name").toLowerCase();
-		if (osname.startsWith("windows")) {
-			command = "explorer " + outDir;
-		} else if (osname.contains("mac")) {
-			command = "open " + outDir + "/";
-		}
-		else {
-			command = "gnome-open  " + outDir + "/";
-		}
-		System.out.println("Opening output directory using command: " + command);
-		writers.CommandlineCaller.call(command);
-	}
+
 
 	public static void main(String[] args)
 	{
